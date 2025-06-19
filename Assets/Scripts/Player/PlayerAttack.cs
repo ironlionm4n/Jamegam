@@ -8,14 +8,17 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private GameObject projectileSpawnPoint_left;
     [SerializeField] private GameObject projectileSpawnPoint_right;
     [SerializeField, Tooltip("Time in between attacks")] private float fireRate = 0.5f;
+    [SerializeField] private AudioClip[] attackSounds;
     
     private InputSystem_Actions _inputActions;
     private int _spawnerIndex; // 0 for left, 1 for right
     private float _nextFireTime;
     private bool _canAttack;
+    private AudioSource _attackAudioSource;
 
     private void OnEnable()
     {
+        _attackAudioSource = GetComponent<AudioSource>();
         if (_inputActions == null)
         {
             _inputActions = new InputSystem_Actions();
@@ -48,6 +51,8 @@ public class PlayerAttack : MonoBehaviour
         _canAttack = false;
         _nextFireTime = Time.time + fireRate;
         var currentSpawner = _spawnerIndex == 0 ? projectileSpawnPoint_left : projectileSpawnPoint_right;
+        _attackAudioSource.clip = attackSounds[UnityEngine.Random.Range(0, attackSounds.Length)];
+        _attackAudioSource.PlayOneShot(_attackAudioSource.clip);
         switch (_spawnerIndex)
         {
             case 0:
