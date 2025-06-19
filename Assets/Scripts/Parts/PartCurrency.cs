@@ -42,7 +42,7 @@ public class PartCurrency : MonoBehaviour
             
             if(Vector2.Distance(gameObject.transform.position, playerObject.transform.position) < 0.33f)
             {
-                playerObject.GetComponent<Economy>().CollectPartCurrency(currencyValue);
+                playerObject.GetComponentInChildren<Economy>().CollectPartCurrency(currencyValue);
                 Destroy(gameObject);
             }
         }
